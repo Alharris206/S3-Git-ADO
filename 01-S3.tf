@@ -74,3 +74,12 @@ resource "aws_s3_object" "upload_png" {
   etag         = filemd5("${path.module}/${each.value}")
   content_type = "image/.png" 
 }
+
+resource "aws_s3_object" "upload_frame" {
+  for_each     = fileset("${path.module}/", "*.frame")
+  bucket       = aws_s3_bucket.bucket.id
+  key          = each.value
+  source       = "${path.module}/${each.value}"
+  etag         = filemd5("${path.module}/${each.value}")
+  content_type = "image/.frame" 
+}
